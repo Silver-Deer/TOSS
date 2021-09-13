@@ -9,6 +9,7 @@ class ThemeConfig {
   static Color darkBG = Color(0xff121212);
 
   static ThemeData lightTheme = ThemeData(
+    fontFamily: 'NanumGothic',
     backgroundColor: lightBG,
     primaryColor: lightPrimary,
     accentColor: lightAccent,
@@ -19,6 +20,7 @@ class ThemeConfig {
   );
 
   static ThemeData darkTheme = ThemeData(
+    fontFamily: 'NanumGothic',
     brightness: Brightness.dark,
     backgroundColor: darkBG,
     primaryColor: darkPrimary,
