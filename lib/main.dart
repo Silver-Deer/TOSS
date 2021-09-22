@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:toss/main_screen.dart';
 import 'package:toss/theme/theme_config.dart';
 import 'package:toss/view_models/app_provider.dart';
 import 'package:toss/view_models/home_provider.dart';
+import 'package:toss/views/sign_in/sign_in_screen.dart';
 
 void main() {
   runApp(MultiProvider(
@@ -26,8 +26,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           navigatorKey: appProvider.navigatorKey,
           theme: appProvider.theme,
-          darkTheme: ThemeConfig.darkTheme,
-          home: MainScreen(),
+          home: SignInScreen(),
         );
       },
     );
