@@ -4,6 +4,7 @@ import 'package:toss/theme/theme_config.dart';
 import 'package:toss/view_models/app_provider.dart';
 import 'package:toss/view_models/home_provider.dart';
 import 'package:toss/views/sign_in/sign_in_screen.dart';
+import 'package:toss/views/sign_up/sign_up_screen.dart';
 
 void main() {
   runApp(MultiProvider(
@@ -26,7 +27,8 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           navigatorKey: appProvider.navigatorKey,
           theme: appProvider.theme,
-          home: SignInScreen(),
+          darkTheme: ThemeConfig.darkTheme,
+          home: SignUpScreen(),
         );
       },
     );
