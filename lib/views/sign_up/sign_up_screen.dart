@@ -1,4 +1,7 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:toss/utils/enter_exit_route.dart';
+import 'package:toss/views/sign_up/second_sign_up_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -25,7 +28,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 40),
+                  SizedBox(height: 35),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -74,17 +77,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   SizedBox(height: 35),
                   buildTitle('이름'),
                   SizedBox(height: 10),
-                  buildInputBox(),
-                  SizedBox(height: 35),
-                  buildTitle('별명'),
-                  SizedBox(height: 10),
                   buildInputBox(isLast: true),
                   SizedBox(height: 10),
                   Row(
                     children: [
                       Spacer(),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              EnterExitRoute(
+                                  exitPage: this.widget,
+                                  enterPage: SecondSignUpScreen()));
+                        },
                         child: Padding(
                           padding: const EdgeInsets.only(top: 10, bottom: 10),
                           child: Text(
