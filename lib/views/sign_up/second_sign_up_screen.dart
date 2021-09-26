@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:toss/utils/enter_exit_route.dart';
+import 'package:toss/views/sign_up/third_sign_up_screen.dart';
 
 class SecondSignUpScreen extends StatefulWidget {
   const SecondSignUpScreen({Key? key}) : super(key: key);
@@ -87,11 +88,11 @@ class _SecondSignUpScreenState extends State<SecondSignUpScreen> {
                   Spacer(),
                   TextButton(
                     onPressed: () {
-                      // Navigator.push(
-                      //     context,
-                      //     EnterExitRoute(
-                      //         exitPage: this.widget,
-                      //         enterPage: SecondSignUpScreen()));
+                      Navigator.push(
+                          context,
+                          EnterExitRoute(
+                              exitPage: this.widget,
+                              enterPage: ThirdSignUpScreen()));
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(top: 10, bottom: 10),
