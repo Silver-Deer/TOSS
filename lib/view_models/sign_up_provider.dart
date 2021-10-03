@@ -24,6 +24,11 @@ class SignUpProvider extends ChangeNotifier {
   String _confirmSimplePw = "";
   String get confirmSimplePw => _confirmSimplePw;
 
+  String _image = "";
+  String get image => _image;
+  bool _isSvg = false;
+  bool get isSvg => _isSvg;
+
   bool isIdPass = false;
   bool isBirthGenderPass = false;
   bool isPwLengthPass = false;
@@ -201,5 +206,11 @@ class SignUpProvider extends ChangeNotifier {
 
   void checkIdConflicted() {
     isIdPass = !isIdPass;
+  }
+
+  void setImage(String imagePath, bool isSvg) {
+    _image = imagePath;
+    _isSvg = isSvg;
+    notifyListeners();
   }
 }

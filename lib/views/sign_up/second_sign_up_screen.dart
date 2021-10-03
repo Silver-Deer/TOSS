@@ -1,5 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:toss/utils/enter_exit_route.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
+import 'package:toss/utils/router.dart';
+import 'package:toss/view_models/sign_up_provider.dart';
 import 'package:toss/views/sign_up/third_sign_up_screen.dart';
 
 class SecondSignUpScreen extends StatefulWidget {
@@ -10,8 +18,44 @@ class SecondSignUpScreen extends StatefulWidget {
 }
 
 class _SecondSignUpScreenState extends State<SecondSignUpScreen> {
+  static const List<String> iconList = [
+    "asset/icon/camera.svg",
+    "asset/icon/gallery.svg",
+    "asset/icon/alien.svg",
+    "asset/icon/cat.svg",
+    "asset/icon/dog.svg",
+    "asset/icon/flower.svg",
+    "asset/icon/hare.svg",
+    "asset/icon/heart.svg",
+    "asset/icon/leaf.svg",
+    "asset/icon/lion.svg",
+    "asset/icon/pig.svg",
+    "asset/icon/wolf.svg"
+  ];
+
   @override
   Widget build(BuildContext context) {
+    SignUpProvider signUpProvider = Provider.of<SignUpProvider>(context);
+
+    Widget profileImage = Container();
+    if (signUpProvider.isSvg) {
+      profileImage = Container(
+          width: 200,
+          height: 200,
+          child: SvgPicture.file(File(signUpProvider.image)));
+    } else {
+      profileImage = Container(
+          width: 200,
+          height: 200,
+          decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: FileImage(File(signUpProvider.image)))));
+    }
+
+    debugPrint("id: ${signUpProvider.id} imagePath: ${signUpProvider.image}");
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(toolbarHeight: 0),
@@ -36,9 +80,7 @@ class _SecondSignUpScreenState extends State<SecondSignUpScreen> {
                 ],
               ),
               SizedBox(height: 56),
-              CircleAvatar(
-                radius: 90,
-              ),
+              profileImage,
               SizedBox(height: 20),
               TextField(
                 textAlign: TextAlign.center,
@@ -68,7 +110,31 @@ class _SecondSignUpScreenState extends State<SecondSignUpScreen> {
                     ),
                     shrinkWrap: true,
                     itemCount: 12,
-                    itemBuilder: (context, index) => CircleAvatar()),
+                    itemBuilder: (context, index) => GestureDetector(
+                          onTap: () async {
+                            if (index == 0) {
+                              var image = await ImagePicker.platform
+                                  .pickImage(source: ImageSource.camera);
+                              signUpProvider.setImage(image?.path ?? "", false);
+                            } else if (index == 1) {
+                              var image = await ImagePicker.platform
+                                  .pickImage(source: ImageSource.gallery);
+                              signUpProvider.setImage(image?.path ?? "", false);
+                            } else {
+                              var byteData =
+                                  await rootBundle.load(iconList[index]);
+                              var file = File(
+                                  '${(await getTemporaryDirectory()).path}/image$index');
+                              await file.writeAsBytes(byteData.buffer
+                                  .asUint8List(byteData.offsetInBytes,
+                                      byteData.lengthInBytes));
+                              signUpProvider.setImage(file.path, true);
+                            }
+                          },
+                          child: SvgPicture.asset(
+                            iconList[index],
+                          ),
+                        )),
               ),
               Flexible(flex: 1, child: Container()),
               Row(
@@ -88,11 +154,7 @@ class _SecondSignUpScreenState extends State<SecondSignUpScreen> {
                   Spacer(),
                   TextButton(
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          EnterExitRoute(
-                              exitPage: this.widget,
-                              enterPage: ThirdSignUpScreen()));
+                      AppRouter.push(context, ThirdSignUpScreen());
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(top: 10, bottom: 10),
