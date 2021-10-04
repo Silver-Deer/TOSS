@@ -258,7 +258,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       Spacer(),
                       TextButton(
                         onPressed: () {
-                          if (signUpProvider.complete()) {
+                          if (signUpProvider.completeFirstPage()) {
                             AppRouter.push(context, SecondSignUpScreen());
                           } else {
                             Fluttertoast.showToast(

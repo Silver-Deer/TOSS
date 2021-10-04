@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
@@ -36,9 +37,14 @@ class _SecondSignUpScreenState extends State<SecondSignUpScreen> {
   @override
   Widget build(BuildContext context) {
     SignUpProvider signUpProvider = Provider.of<SignUpProvider>(context);
-
     Widget profileImage = Container();
-    if (signUpProvider.isSvg) {
+    if (signUpProvider.image == "") {
+      profileImage = Container(
+        width: 200,
+        height: 200,
+        child: CircleAvatar(backgroundColor: Colors.grey),
+      );
+    } else if (signUpProvider.isSvg) {
       profileImage = Container(
           width: 200,
           height: 200,
@@ -53,8 +59,6 @@ class _SecondSignUpScreenState extends State<SecondSignUpScreen> {
                   fit: BoxFit.cover,
                   image: FileImage(File(signUpProvider.image)))));
     }
-
-    debugPrint("id: ${signUpProvider.id} imagePath: ${signUpProvider.image}");
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -89,6 +93,13 @@ class _SecondSignUpScreenState extends State<SecondSignUpScreen> {
                     fontWeight: FontWeight.bold,
                     fontSize: 20),
                 maxLines: 1,
+                controller: TextEditingController.fromValue(TextEditingValue(
+                    text: signUpProvider.nickname,
+                    selection: TextSelection.fromPosition(
+                        TextPosition(offset: signUpProvider.nickname.length)))),
+                onChanged: (text) {
+                  signUpProvider.setNickname(text);
+                },
                 showCursor: false,
                 decoration: InputDecoration(
                     border: InputBorder.none,
@@ -98,6 +109,11 @@ class _SecondSignUpScreenState extends State<SecondSignUpScreen> {
                         fontWeight: FontWeight.bold,
                         fontSize: 20)),
               ),
+              ElevatedButton(
+                  onPressed: () {
+                    signUpProvider.checkNicknameConflicted();
+                  },
+                  child: Text('중복확인')),
               SizedBox(height: 45),
               Padding(
                 padding: const EdgeInsets.only(left: 30, right: 30),
@@ -154,7 +170,19 @@ class _SecondSignUpScreenState extends State<SecondSignUpScreen> {
                   Spacer(),
                   TextButton(
                     onPressed: () {
-                      AppRouter.push(context, ThirdSignUpScreen());
+                      if (signUpProvider.completeSecondPage()) {
+                        FocusScope.of(context).unfocus();
+                        AppRouter.push(context, ThirdSignUpScreen());
+                      } else {
+                        Fluttertoast.showToast(
+                            msg: signUpProvider.errorMessage,
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.red,
+                            textColor: Colors.white,
+                            fontSize: 25.0);
+                      }
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(top: 10, bottom: 10),

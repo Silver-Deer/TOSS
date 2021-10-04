@@ -15,10 +15,8 @@ class SignUpProvider extends ChangeNotifier {
   String get gender => _gender;
   String _name = "";
   String get name => _name;
-  String _nickName = "";
-  String get nickName => _nickName;
-  String _profileUrl = "";
-  String get profileUrl => _profileUrl;
+  String _nickname = "";
+  String get nickname => _nickname;
   String _simplePw = "";
   String get simplePw => _simplePw;
   String _confirmSimplePw = "";
@@ -30,11 +28,11 @@ class SignUpProvider extends ChangeNotifier {
   bool get isSvg => _isSvg;
 
   bool isIdPass = false;
-  bool isBirthGenderPass = false;
   bool isPwLengthPass = false;
   bool isPwEnglishPass = false;
   bool isPwNumberPass = false;
   bool isPwSpecialPass = false;
+  bool isNicknamePass = false;
 
   String errorMessage = "";
 
@@ -102,12 +100,18 @@ class SignUpProvider extends ChangeNotifier {
       notifyListeners();
       return;
     }
-    if (koreanRegExp.allMatches(name).length == name.length) {
-      _name = name;
-    }
+    _name = name;
   }
 
-  bool complete() {
+  void setNickname(String nickname) {
+    if (specialExp.hasMatch(nickname) || numRegExp.hasMatch(nickname)) {
+      notifyListeners();
+      return;
+    }
+    _nickname = nickname;
+  }
+
+  bool completeFirstPage() {
     if (!checkId(id) || id.length < 3 || id.length > 12) {
       errorMessage = "아이디를 확인해 주세요";
       return false;
@@ -134,10 +138,6 @@ class SignUpProvider extends ChangeNotifier {
     if (!checkPhoneNumber(phoneNumber)) {
       errorMessage = "전화번호를 확인해 주세요";
       return false;
-    }
-
-    if (!isBirthGenderPass) {
-      errorMessage = "주민등록번호 중복 확인을 해주세요";
     }
 
     if (!checkName(name)) {
@@ -204,13 +204,39 @@ class SignUpProvider extends ChangeNotifier {
         name.length >= 1;
   }
 
+  bool checkNickname(String nickname) {
+    if (specialExp.hasMatch(nickname)) {
+      return false;
+    }
+    return koreanRegExp.allMatches(nickname).length == nickname.length &&
+        nickname.length >= 1;
+  }
+
   void checkIdConflicted() {
-    isIdPass = !isIdPass;
+    isIdPass = true;
+  }
+
+  void checkNicknameConflicted() {
+    isNicknamePass = true;
   }
 
   void setImage(String imagePath, bool isSvg) {
     _image = imagePath;
     _isSvg = isSvg;
     notifyListeners();
+  }
+
+  bool completeSecondPage() {
+    if (!checkNickname(nickname)) {
+      errorMessage = "닉네임을 확인해 주세요";
+      return false;
+    }
+
+    if (!isNicknamePass) {
+      errorMessage = "닉네임 중복확인을 해주세요";
+      return false;
+    }
+
+    return true;
   }
 }
