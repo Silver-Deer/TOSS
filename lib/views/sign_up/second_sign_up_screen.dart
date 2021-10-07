@@ -8,7 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:toss/utils/router.dart';
-import 'package:toss/view_models/sign_up_provider.dart';
+import 'package:toss/view_models/second_sign_up_provider.dart';
 import 'package:toss/views/sign_up/third_sign_up_screen.dart';
 
 class SecondSignUpScreen extends StatefulWidget {
@@ -36,7 +36,8 @@ class _SecondSignUpScreenState extends State<SecondSignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SignUpProvider signUpProvider = Provider.of<SignUpProvider>(context);
+    SecondSignUpProvider signUpProvider =
+        Provider.of<SecondSignUpProvider>(context);
     Widget profileImage = Container();
     if (signUpProvider.image == "") {
       profileImage = Container(

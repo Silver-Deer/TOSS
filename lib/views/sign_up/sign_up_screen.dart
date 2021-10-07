@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:toss/utils/router.dart';
-import 'package:toss/view_models/sign_up_provider.dart';
+import 'package:toss/view_models/first_sign_up_provider.dart';
 import 'package:toss/views/sign_up/second_sign_up_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -25,7 +25,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final SignUpProvider signUpProvider = Provider.of<SignUpProvider>(context);
+    final FirstSignUpProvider signUpProvider =
+        Provider.of<FirstSignUpProvider>(context);
 
     idController.value = TextEditingValue(
         text: signUpProvider.id,
@@ -309,7 +310,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         child: textField);
   }
 
-  Widget buildPasswordTooltip(SignUpProvider provider) {
+  Widget buildPasswordTooltip(FirstSignUpProvider provider) {
     const TextStyle style = TextStyle(fontSize: 12);
 
     const Icon pass = Icon(Icons.check_circle, color: Colors.green);

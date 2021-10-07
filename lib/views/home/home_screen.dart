@@ -26,6 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
         (BuildContext buildContext, HomeProvider homeProvider, Widget? child) {
       return Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           toolbarHeight: 80,
           title: Container(
             margin: EdgeInsets.only(top: 20, left: 10),
