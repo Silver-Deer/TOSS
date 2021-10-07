@@ -6,7 +6,7 @@ import 'package:toss/view_models/first_sign_up_provider.dart';
 import 'package:toss/view_models/home_provider.dart';
 import 'package:toss/view_models/second_sign_up_provider.dart';
 import 'package:toss/view_models/third_sign_up_provider.dart';
-import 'package:toss/views/sign_up/sign_up_screen.dart';
+import 'package:toss/views/sign_up/first_sign_up_screen.dart';
 
 void main() {
   runApp(MultiProvider(
@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
           navigatorKey: appProvider.navigatorKey,
           theme: appProvider.theme,
           darkTheme: ThemeConfig.darkTheme,
-          home: SignUpScreen(),
+          home: FirstSignUpScreen(),
         );
       },
     );

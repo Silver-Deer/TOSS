@@ -5,14 +5,14 @@ import 'package:toss/utils/router.dart';
 import 'package:toss/view_models/first_sign_up_provider.dart';
 import 'package:toss/views/sign_up/second_sign_up_screen.dart';
 
-class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({Key? key}) : super(key: key);
+class FirstSignUpScreen extends StatefulWidget {
+  const FirstSignUpScreen({Key? key}) : super(key: key);
 
   @override
-  _SignUpScreenState createState() => _SignUpScreenState();
+  _FirstSignUpScreenState createState() => _FirstSignUpScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _FirstSignUpScreenState extends State<FirstSignUpScreen> {
   TextEditingController idController = TextEditingController();
   TextEditingController pwController = TextEditingController();
   TextEditingController confirmPwController = TextEditingController();
