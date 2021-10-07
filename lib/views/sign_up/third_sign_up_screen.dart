@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:toss/utils/enter_exit_route.dart';
-import 'package:toss/views/sign_up/second_sign_up_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:toss/view_models/third_sign_up_provider.dart';
 
 class ThirdSignUpScreen extends StatefulWidget {
   const ThirdSignUpScreen({Key? key}) : super(key: key);
@@ -12,6 +12,34 @@ class ThirdSignUpScreen extends StatefulWidget {
 class _ThirdSignUpScreenState extends State<ThirdSignUpScreen> {
   @override
   Widget build(BuildContext context) {
+    ThirdSignUpProvider signUpProvider =
+        Provider.of<ThirdSignUpProvider>(context);
+
+    Widget buildNumButton(int num) {
+      return Flexible(
+        flex: 1,
+        child: Container(
+          width: double.infinity,
+          child: TextButton(
+            onPressed: () {
+              if (signUpProvider.isTargetConfirm) {
+                signUpProvider.addOneSimpleConfirmPw(num);
+              } else {
+                signUpProvider.addOneSimplePw(num);
+              }
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Text(
+                '$num',
+                style: TextStyle(fontSize: 20),
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(toolbarHeight: 0),
       body: Container(
@@ -43,9 +71,19 @@ class _ThirdSignUpScreenState extends State<ThirdSignUpScreen> {
                         6,
                         (index) => CircleAvatar(
                               radius: 20,
+                              backgroundColor: index <
+                                      (signUpProvider.isTargetConfirm
+                                          ? signUpProvider
+                                              .confirmSimplePw.length
+                                          : signUpProvider.simplePw.length)
+                                  ? Colors.black
+                                  : Colors.blue,
                             ))),
               ),
-              Flexible(flex: 2, child: Container()),
+              Flexible(flex: 1, child: Container()),
+              Text(
+                  '${signUpProvider.isTargetConfirm ? "비밀번호를 한번 더 입력해 주세요" : ""}'),
+              Flexible(flex: 1, child: Container()),
               Row(
                   children:
                       List.generate(3, (index) => buildNumButton(index + 1))),
@@ -57,14 +95,32 @@ class _ThirdSignUpScreenState extends State<ThirdSignUpScreen> {
                       List.generate(3, (index) => buildNumButton(index + 7))),
               Row(
                 children: [
-                  Flexible(flex: 1, child: Container()),
+                  Flexible(
+                    flex: 1,
+                    child: Container(
+                        width: double.infinity,
+                        child: TextButton(
+                            onPressed: () {
+                              signUpProvider.setTarget(false);
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Icon(Icons.refresh),
+                            ))),
+                  ),
                   buildNumButton(0),
                   Flexible(
                     flex: 1,
                     child: Container(
                         width: double.infinity,
                         child: TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              if (signUpProvider.isTargetConfirm) {
+                                signUpProvider.addOneSimpleConfirmPw(-1);
+                              } else {
+                                signUpProvider.addOneSimplePw(-1);
+                              }
+                            },
                             child: Padding(
                               padding: const EdgeInsets.all(20.0),
                               child: Icon(Icons.arrow_back),
@@ -92,25 +148,6 @@ class _ThirdSignUpScreenState extends State<ThirdSignUpScreen> {
               ),
               SizedBox(height: 10),
             ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget buildNumButton(int num) {
-    return Flexible(
-      flex: 1,
-      child: Container(
-        width: double.infinity,
-        child: TextButton(
-          onPressed: () {},
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Text(
-              '$num',
-              style: TextStyle(fontSize: 20),
-            ),
           ),
         ),
       ),
