@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
+import 'package:toss/utils/router.dart';
 import 'package:toss/view_models/third_sign_up_provider.dart';
+import 'package:toss/views/home/home_screen.dart';
+import 'package:toss/views/sign_up/complete_sign_up_screen.dart';
 
 class ThirdSignUpScreen extends StatefulWidget {
   const ThirdSignUpScreen({Key? key}) : super(key: key);
@@ -10,6 +14,25 @@ class ThirdSignUpScreen extends StatefulWidget {
 }
 
 class _ThirdSignUpScreenState extends State<ThirdSignUpScreen> {
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      ThirdSignUpProvider signUpProvider =
+          Provider.of<ThirdSignUpProvider>(context, listen: false);
+
+      signUpProvider.error.stream.listen((event) {
+        Fluttertoast.showToast(msg: event, toastLength: Toast.LENGTH_SHORT);
+      });
+
+      signUpProvider.complete.stream.listen((event) {
+        if (event) {
+          AppRouter.push(context, CompleteSignUpScreen());
+        }
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     ThirdSignUpProvider signUpProvider =

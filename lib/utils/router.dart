@@ -13,4 +13,9 @@ class AppRouter {
       return widget;
     }));
   }
+
+  static void pushReplacementAll(BuildContext context, Widget widget) {
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => widget), (route) => false);
+  }
 }
