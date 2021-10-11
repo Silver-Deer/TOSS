@@ -26,8 +26,9 @@ class _HomeScreenState extends State<HomeScreen> {
         (BuildContext buildContext, HomeProvider homeProvider, Widget? child) {
       return Scaffold(
         appBar: AppBar(
+          backgroundColor: Theme.of(context).backgroundColor,
           automaticallyImplyLeading: false,
-          toolbarHeight: 80,
+          toolbarHeight: 90,
           title: Container(
             margin: EdgeInsets.only(top: 20, left: 10),
             child: Row(
@@ -35,11 +36,12 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 Text(
                   "사승은",
-                  style: TextStyle(fontWeight: FontWeight.w900, fontSize: 22),
+                  style: Theme.of(context).textTheme.headline1,
                 ),
                 Icon(
                   Icons.account_circle,
                   size: 50,
+                  color: Theme.of(context).canvasColor,
                 )
               ],
             ),
@@ -84,6 +86,9 @@ class _HomeScreenState extends State<HomeScreen> {
         AccountCard(),
         AccountCard(),
         AccountCard(),
+        AccountCard(),
+        AccountCard(),
+        AccountCard()
       ],
     );
   }

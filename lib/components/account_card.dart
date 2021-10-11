@@ -6,7 +6,7 @@ class AccountCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: EdgeInsets.only(left: 25, right: 25),
+        padding: EdgeInsets.only(left: 15, right: 15, bottom: 5),
         child: Card(
             color: Color(0xffB3DEB7),
             shape:
@@ -15,34 +15,50 @@ class AccountCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 17.0, left: 15),
-                  child: Text(
-                    '사승은의 통장',
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
-                        color: Color(0xff343434)),
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 17.0, left: 15),
+                          child: Text(
+                            '사승은의 통장',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1
+                                ?.copyWith(color: Colors.black),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8.0, left: 15),
+                          child: Text(
+                            '7777-01-5830229',
+                            style: Theme.of(context).textTheme.subtitle1,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Flexible(child: Container(), flex: 1),
+                    InkWell(
+                      onTap: () {},
+                      child: Icon(Icons.more_vert, color: Colors.grey),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    )
+                  ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0, left: 15),
-                  child: Text(
-                    '7777-01-5830229',
-                    style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w700,
-                        color: Color(0xff5A5A5A)),
-                  ),
-                ),
-                SizedBox(height: 35),
+                SizedBox(height: 40),
                 Center(
                     child: Text('12,652원',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 25))),
-                SizedBox(height: 35),
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline1
+                            ?.copyWith(color: Colors.black))),
+                SizedBox(height: 40),
                 Stack(
                   children: [
                     Center(
