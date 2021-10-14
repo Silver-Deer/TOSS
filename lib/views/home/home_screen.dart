@@ -64,6 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: ListView(
         children: [
           _buildAccountList(),
+          _buildAddAccountButton(),
         ],
       ),
       onRefresh: () => homeProvider.getContents(),
@@ -90,6 +91,36 @@ class _HomeScreenState extends State<HomeScreen> {
         AccountCard(),
         AccountCard()
       ],
+    );
+  }
+
+  Widget _buildAddAccountButton() {
+    Color btnBackground =
+        SchedulerBinding.instance!.window.platformBrightness == Brightness.light
+            ? Color(0xfff4f4f4)
+            : Color(0xff252545);
+
+    Color iconColor =
+        SchedulerBinding.instance!.window.platformBrightness == Brightness.light
+            ? Color(0xffcdcdcd)
+            : Color(0xffa0a0a0);
+
+    return Container(
+      height: 60,
+      margin: EdgeInsets.only(top: 5, bottom: 20),
+      padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+      child: ElevatedButton(
+          style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(btnBackground),
+              shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10))),
+              elevation: MaterialStateProperty.all(0.0)),
+          onPressed: () {},
+          child: Icon(
+            Icons.add,
+            color: iconColor,
+            size: 30,
+          )),
     );
   }
 }
