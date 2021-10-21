@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:toss/main_screen.dart';
+import 'package:toss/utils/api_request_status.dart';
 import 'package:toss/utils/router.dart';
+import 'package:toss/view_models/sign_in_provider.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);
@@ -12,7 +15,24 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInState extends State<SignInScreen> {
   @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      SignInProvider signInProvider =
+          Provider.of<SignInProvider>(context, listen: false);
+
+      signInProvider.loginResult.stream.listen((event) {
+        if (event.status == APIRequestStatus.loaded) {
+          AppRouter.pushReplacement(context, MainScreen());
+        }
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    SignInProvider signInProvider = Provider.of<SignInProvider>(context);
+
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: Container(
@@ -41,21 +61,28 @@ class _SignInState extends State<SignInScreen> {
               Padding(
                 padding: const EdgeInsets.only(left: 10, right: 10),
                 child: TextField(
-                  decoration: InputDecoration(
-                    alignLabelWithHint: false,
-                    labelText: 'ID',
-                  ),
-                ),
+                    decoration: InputDecoration(
+                      alignLabelWithHint: false,
+                      labelText: 'ID',
+                    ),
+                    onChanged: (text) {
+                      signInProvider.id = text;
+                    },
+                    style: Theme.of(context).textTheme.bodyText1),
               ),
               SizedBox(height: 30),
               Padding(
                 padding: const EdgeInsets.only(left: 10, right: 10),
                 child: TextField(
-                  decoration: InputDecoration(
-                    alignLabelWithHint: false,
-                    labelText: 'PW',
-                  ),
-                ),
+                    decoration: InputDecoration(
+                      alignLabelWithHint: false,
+                      labelText: 'PW',
+                    ),
+                    onChanged: (text) {
+                      signInProvider.pw = text;
+                    },
+                    obscureText: true,
+                    style: Theme.of(context).textTheme.bodyText1),
               ),
               SizedBox(height: 15),
               Align(
@@ -81,7 +108,7 @@ class _SignInState extends State<SignInScreen> {
                   color: Color(0xaa0064ff),
                   child: InkWell(
                     onTap: () {
-                      AppRouter.pushReplacement(context, MainScreen());
+                      signInProvider.login();
                     },
                     child: Center(
                       child: Padding(

@@ -1,0 +1,30 @@
+import 'dart:async';
+
+import 'package:flutter/cupertino.dart';
+import 'package:toss/model/base_result.dart';
+import 'package:toss/model/session.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:toss/utils/api_request_status.dart';
+
+class SignInProvider extends ChangeNotifier {
+  StreamController<BaseResult<String>> loginResult =
+      StreamController<BaseResult<String>>();
+
+  String id = "";
+  String pw = "";
+
+  void login() async {
+    final request = {'id': id, 'password': pw};
+    final storage = FlutterSecureStorage();
+
+    Session.post('http://10.80.162.103:8000/user/login', request,
+            isTokenRequired: false)
+        .then((value) async {
+      await storage.write(key: 'token', value: value['loginToken']);
+      loginResult.add(BaseResult(
+          status: APIRequestStatus.loaded,
+          message: "성공적으로 로그인 하였습니다",
+          data: value['loginToken']));
+    }, onError: (e) => {debugPrint('$e')});
+  }
+}
