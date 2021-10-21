@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:toss/model/domain/account.dart';
 
 class AccountCard extends StatelessWidget {
-  const AccountCard({Key? key}) : super(key: key);
+  Account account;
+
+  AccountCard(this.account, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +28,7 @@ class AccountCard extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(top: 17.0, left: 15),
                           child: Text(
-                            '사승은의 통장',
+                            account.accountName,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyText1
@@ -35,7 +38,7 @@ class AccountCard extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(top: 8.0, left: 15),
                           child: Text(
-                            '7777-01-5830229',
+                            account.accountNumber,
                             style: Theme.of(context).textTheme.subtitle1,
                           ),
                         ),
@@ -53,7 +56,7 @@ class AccountCard extends StatelessWidget {
                 ),
                 SizedBox(height: 40),
                 Center(
-                    child: Text('12,652원',
+                    child: Text('${account.money}원',
                         style: Theme.of(context)
                             .textTheme
                             .headline1

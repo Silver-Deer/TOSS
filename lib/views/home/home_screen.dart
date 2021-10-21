@@ -3,6 +3,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'package:toss/components/account_card.dart';
 import 'package:toss/components/body_builder.dart';
+import 'package:toss/model/domain/account.dart';
 import 'package:toss/view_models/home_provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -16,12 +17,14 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    debugPrint("init");
     SchedulerBinding.instance?.addPostFrameCallback(
         (_) => Provider.of<HomeProvider>(context, listen: false).getContents());
   }
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("build");
     return Consumer<HomeProvider>(builder:
         (BuildContext buildContext, HomeProvider homeProvider, Widget? child) {
       return Scaffold(
@@ -54,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildBody(HomeProvider homeProvider) {
     return BodyBuilder(
-        apiRequestStatus: homeProvider.apiRequestStatus,
+        apiRequestStatus: homeProvider.networkStatus,
         child: _buildBodyList(homeProvider),
         reload: () => homeProvider.getContents());
   }
@@ -62,8 +65,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildBodyList(HomeProvider homeProvider) {
     return RefreshIndicator(
       child: ListView(
+        physics: BouncingScrollPhysics(),
         children: [
-          _buildAccountList(),
+          _buildAccountList(homeProvider.accountList),
           _buildAddAccountButton(),
         ],
       ),
@@ -79,19 +83,11 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildAccountList() {
+  Widget _buildAccountList(List<Account> accountList) {
     return ListView(
-      physics: NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      children: [
-        AccountCard(),
-        AccountCard(),
-        AccountCard(),
-        AccountCard(),
-        AccountCard(),
-        AccountCard()
-      ],
-    );
+        physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        children: accountList.map((account) => AccountCard(account)).toList());
   }
 
   Widget _buildAddAccountButton() {
