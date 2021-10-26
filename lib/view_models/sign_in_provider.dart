@@ -5,6 +5,7 @@ import 'package:toss/model/base_result.dart';
 import 'package:toss/model/session.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:toss/utils/api_request_status.dart';
+import 'package:toss/utils/exception/ConnectionException.dart';
 
 class SignInProvider extends ChangeNotifier {
   StreamController<BaseResult<String>> loginResult =
@@ -25,6 +26,16 @@ class SignInProvider extends ChangeNotifier {
           status: APIRequestStatus.loaded,
           message: "성공적으로 로그인 하였습니다",
           data: value['loginToken']));
-    }, onError: (e) => {debugPrint('$e')});
+    }, onError: (e) {
+      if (e is ConnectionException) {
+        loginResult.add(BaseResult(
+            status: APIRequestStatus.connectionError,
+            data: "",
+            message: e.message));
+      } else {
+        loginResult.add(BaseResult(
+            status: APIRequestStatus.error, data: "", message: e.toString()));
+      }
+    });
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:toss/main_screen.dart';
 import 'package:toss/utils/api_request_status.dart';
@@ -22,8 +23,21 @@ class _SignInState extends State<SignInScreen> {
           Provider.of<SignInProvider>(context, listen: false);
 
       signInProvider.loginResult.stream.listen((event) {
-        if (event.status == APIRequestStatus.loaded) {
-          AppRouter.pushReplacement(context, MainScreen());
+        debugPrint('${event.status.index}');
+        switch (event.status) {
+          case APIRequestStatus.unInitialized:
+            break;
+          case APIRequestStatus.loading:
+            break;
+          case APIRequestStatus.loaded:
+            AppRouter.pushReplacement(context, MainScreen());
+            break;
+          case APIRequestStatus.error:
+            Fluttertoast.showToast(msg: event.message);
+            break;
+          case APIRequestStatus.connectionError:
+            Fluttertoast.showToast(msg: event.message);
+            break;
         }
       });
     });

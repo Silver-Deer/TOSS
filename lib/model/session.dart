@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:toss/utils/exception/ConnectionException.dart';
 
 class Session {
   static Map<String, String> _header = {
@@ -20,8 +21,9 @@ class Session {
       'Authorization': token ?? ""
     };
 
-    final response = await http.get(Uri.parse(uri),
-        headers: isTokenRequired ? tokenHeader : _header);
+    final response = await http
+        .get(Uri.parse(uri), headers: isTokenRequired ? tokenHeader : _header)
+        .timeout(Duration(seconds: 5));
 
     Map<String, dynamic> res = json.decode(utf8.decode(response.bodyBytes));
 
@@ -41,9 +43,13 @@ class Session {
       'Authorization': token ?? ""
     };
 
-    final response = await http.post(Uri.parse(uri),
-        body: json.encode(data),
-        headers: isTokenRequired ? tokenHeader : _header);
+    final response = await http
+        .post(Uri.parse(uri),
+            body: json.encode(data),
+            headers: isTokenRequired ? tokenHeader : _header)
+        .timeout(Duration(seconds: 5), onTimeout: () {
+      throw ConnectionException("500 Connection Error");
+    });
 
     dynamic res = json.decode(utf8.decode(response.bodyBytes));
 
