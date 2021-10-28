@@ -12,7 +12,7 @@ class CreateAccountIntroScreen extends StatefulWidget {
 }
 
 class _CreateAccountIntroScreenState extends State<CreateAccountIntroScreen> {
-  double visiblity = 1.0;
+  double visiblity = 0.0;
 
   @override
   Widget build(BuildContext context) {
@@ -132,6 +132,7 @@ class _CreateAccountIntroScreenState extends State<CreateAccountIntroScreen> {
 
   Widget buildComponent1() {
     return Container(
+      color: Colors.white,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -139,14 +140,14 @@ class _CreateAccountIntroScreenState extends State<CreateAccountIntroScreen> {
             padding: const EdgeInsets.fromLTRB(40, 50, 40, 0),
             child: Text(
               '누구나 쉽고 스마트하게',
-              style: TextStyle(fontSize: 22),
+              style: TextStyle(fontSize: 22, color: Colors.black),
             ),
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(40, 30, 40, 0),
             child: Text(
               '통장의 많은 정보와 기능들을 쉽고 편리하게 이용할 수 있도록 디자인했습니다.\n간편하게 이체, 거래내역 자세히 보기도 바로바로, 중요한 내용은 놓치지 않고 확인할 수 있습니다',
-              style: TextStyle(height: 1.8, fontSize: 13),
+              style: TextStyle(height: 1.8, fontSize: 13, color: Colors.black),
             ),
           ),
           SizedBox(height: 40),
@@ -166,14 +167,15 @@ class _CreateAccountIntroScreenState extends State<CreateAccountIntroScreen> {
               padding: const EdgeInsets.fromLTRB(40, 50, 40, 0),
               child: Text(
                 '계좌 속 금고, 세이프박스',
-                style: TextStyle(fontSize: 22),
+                style: TextStyle(fontSize: 22, color: Colors.black),
               ),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(40, 30, 40, 0),
               child: Text(
                 '여러 개의 통장을 만들지 않아도 쉽게 통장 잔고를 관리할 수 있습니다.\n여유자금이 있다면 하루만 맡겨도 연 0.80%(세전)를 제공하는 세이프박스에 보관해보세요.',
-                style: TextStyle(height: 1.8, fontSize: 13),
+                style:
+                    TextStyle(height: 1.8, fontSize: 13, color: Colors.black),
               ),
             ),
             SizedBox(height: 40),
@@ -184,7 +186,7 @@ class _CreateAccountIntroScreenState extends State<CreateAccountIntroScreen> {
 
   Widget buildComponent3() {
     return Container(
-      color: Color(0xFFfffff),
+      color: Colors.white,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -192,14 +194,14 @@ class _CreateAccountIntroScreenState extends State<CreateAccountIntroScreen> {
             padding: const EdgeInsets.fromLTRB(40, 50, 40, 0),
             child: Text(
               '이체는 더욱 간편하게',
-              style: TextStyle(fontSize: 22),
+              style: TextStyle(fontSize: 22, color: Colors.black),
             ),
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(40, 30, 40, 0),
             child: Text(
               '많은 내용을 입력할 필요 없이 입금 계좌번호만 입력하면 간편하게 이체할 수 있습니다.\n예약이체, 여러 건의 이체도 간편하게 이용해보세요',
-              style: TextStyle(height: 1.8, fontSize: 13),
+              style: TextStyle(height: 1.8, fontSize: 13, color: Colors.black),
             ),
           ),
           SizedBox(height: 40),
