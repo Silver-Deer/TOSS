@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:toss/utils/router.dart';
+import 'package:toss/views/open_account/check_my_info_screen.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 class CreateAccountIntroScreen extends StatefulWidget {
@@ -43,7 +45,8 @@ class _CreateAccountIntroScreenState extends State<CreateAccountIntroScreen> {
                 height: 60 * visiblity,
                 child: MaterialButton(
                   minWidth: double.infinity,
-                  onPressed: () => {},
+                  onPressed: () =>
+                      {AppRouter.push(context, CheckMyInfoScreen())},
                   color: Color(0xff3DB087),
                   child: Text('입출금 통장 신청하기',
                       style: TextStyle(
@@ -98,7 +101,9 @@ class _CreateAccountIntroScreenState extends State<CreateAccountIntroScreen> {
                     '보안은 더 강력하게')
               ]),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  AppRouter.push(context, CheckMyInfoScreen());
+                },
                 child: Container(
                   height: 45,
                   child: Center(
