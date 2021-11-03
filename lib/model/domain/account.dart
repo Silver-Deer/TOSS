@@ -13,7 +13,10 @@ class Account {
   Account.fromJson(Map<String, dynamic> json) {
     bankName = json['bankName'];
     accountName = json['accountName'];
-    accountNumber = json['accountNumber'];
+    String value = json['accountNumber'].toString();
+    accountNumber = value.length == 11
+        ? '${value.substring(0, 3)}-${value.substring(3, 7)}-${value.substring(7, 11)}'
+        : '${value.substring(0, 2)}-${value.substring(2, 6)}-${value.substring(6, 10)}';
     money = json['money'];
   }
 

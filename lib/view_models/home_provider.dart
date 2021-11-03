@@ -20,7 +20,7 @@ class HomeProvider extends ChangeNotifier {
 
   void getMyAccounts() {
     Session.get('http://10.80.162.103:8000/account').then((value) {
-      _accountList = new List<Map<String, dynamic>>.from(value['data'])
+      _accountList = new List<Map<String, dynamic>>.from(value['tossResult'])
           .map((json) => Account.fromJson(json))
           .toList();
       setApiRequestStatus(APIRequestStatus.loaded);
