@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:toss/components/transfer_history_card.dart';
 import 'package:toss/model/domain/account.dart';
 
 class DetailAccountScreen extends StatefulWidget {
@@ -39,14 +40,17 @@ class _DetailAccountScreenState extends State<DetailAccountScreen> {
           ),
           centerTitle: true,
         ),
-        body: buildHead(account, accountColor));
+        body: ListView(children: [
+          buildHead(account, accountColor),
+          buildTransferHistory()
+        ]));
   }
 
   Widget buildHead(Account account, Color accountColor) {
     return Container(
       color: accountColor,
       width: double.infinity,
-      height: 200,
+      height: 240,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -91,5 +95,16 @@ class _DetailAccountScreenState extends State<DetailAccountScreen> {
         ],
       ),
     );
+  }
+
+  Widget buildTransferHistory() {
+    return ListView.separated(
+        physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemBuilder: (BuildContext context, int idx) =>
+            ListTile(onTap: () {}, title: TransferHistoryCard()),
+        separatorBuilder: (BuildContext context, int index) =>
+            Divider(thickness: 0.5),
+        itemCount: 10);
   }
 }
